@@ -5,4 +5,6 @@ import moutawakil.latifa.bankaccountservice.dto.BankAccountResponseDTO;
 
 public interface AccountService  {
     public BankAccountResponseDTO addAccount(BankAccountRequestDTO bankAccountDTO);
+
+    BankAccountResponseDTO updateAccount(String id, BankAccountRequestDTO bankAccountDTO);
 }
