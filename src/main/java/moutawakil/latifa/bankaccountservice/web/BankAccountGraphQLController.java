@@ -3,7 +3,9 @@ package moutawakil.latifa.bankaccountservice.web;
 import moutawakil.latifa.bankaccountservice.dto.BankAccountRequestDTO;
 import moutawakil.latifa.bankaccountservice.dto.BankAccountResponseDTO;
 import moutawakil.latifa.bankaccountservice.entities.BankAccount;
+import moutawakil.latifa.bankaccountservice.entities.Customer;
 import moutawakil.latifa.bankaccountservice.repositories.BankAccountRepository;
+import moutawakil.latifa.bankaccountservice.repositories.CustomerRepository;
 import moutawakil.latifa.bankaccountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -19,6 +21,9 @@ public class BankAccountGraphQLController {
     private BankAccountRepository bankAccountRepository;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @QueryMapping
     public List<BankAccount> accountsList() {
         return bankAccountRepository.findAll();
@@ -44,6 +49,11 @@ public class BankAccountGraphQLController {
     public Boolean  deleteAccount(@Argument String id){
         bankAccountRepository.deleteById(id);
         return true;
+    }
+
+    @QueryMapping
+    public List<Customer> customers(){
+        return customerRepository.findAll();
     }
 }
 
