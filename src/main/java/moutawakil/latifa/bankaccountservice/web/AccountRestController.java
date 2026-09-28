@@ -1,7 +1,10 @@
 package moutawakil.latifa.bankaccountservice.web;
 
+import moutawakil.latifa.bankaccountservice.dto.BankAccountRequestDTO;
+import moutawakil.latifa.bankaccountservice.dto.BankAccountResponseDTO;
 import moutawakil.latifa.bankaccountservice.entities.BankAccount;
 import moutawakil.latifa.bankaccountservice.repositories.BankAccountRepository;
+import moutawakil.latifa.bankaccountservice.service.AccountService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -14,9 +17,11 @@ import java.util.UUID;
 public class AccountRestController {
 
     private BankAccountRepository bankAccountRepository;
+    private AccountService accountService;
 
-    public AccountRestController(BankAccountRepository bankAccountRepository) {
+    public AccountRestController(BankAccountRepository bankAccountRepository, AccountService accountService) {
         this.bankAccountRepository = bankAccountRepository;
+        this.accountService = accountService;
     }
     @GetMapping("/bankAccounts")
     public List<BankAccount> bankAccounts() {
@@ -30,9 +35,8 @@ public class AccountRestController {
     }
 
     @PostMapping("/bankAccounts")
-    public BankAccount save(@RequestBody BankAccount bankAccount) {
-        if(bankAccount.getId() == null) bankAccount.setId(UUID.randomUUID().toString());
-        return bankAccountRepository.save(bankAccount);
+    public BankAccountResponseDTO save(@RequestBody BankAccountRequestDTO requestDTO) {
+        return accountService.addAccount(requestDTO);
     }
 
     @PutMapping("/bankAccounts/{id}")
