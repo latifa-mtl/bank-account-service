@@ -3,6 +3,7 @@ package moutawakil.latifa.bankaccountservice.web;
 import moutawakil.latifa.bankaccountservice.dto.BankAccountRequestDTO;
 import moutawakil.latifa.bankaccountservice.dto.BankAccountResponseDTO;
 import moutawakil.latifa.bankaccountservice.entities.BankAccount;
+import moutawakil.latifa.bankaccountservice.mappers.AccountMapper;
 import moutawakil.latifa.bankaccountservice.repositories.BankAccountRepository;
 import moutawakil.latifa.bankaccountservice.service.AccountService;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,12 @@ public class AccountRestController {
 
     private BankAccountRepository bankAccountRepository;
     private AccountService accountService;
+    private AccountMapper accountMapper;
 
-    public AccountRestController(BankAccountRepository bankAccountRepository, AccountService accountService) {
+    public AccountRestController(BankAccountRepository bankAccountRepository, AccountService accountService, AccountMapper accountMapper) {
         this.bankAccountRepository = bankAccountRepository;
         this.accountService = accountService;
+        this.accountMapper = accountMapper;
     }
     @GetMapping("/bankAccounts")
     public List<BankAccount> bankAccounts() {

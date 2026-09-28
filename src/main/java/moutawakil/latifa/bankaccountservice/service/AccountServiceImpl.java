@@ -3,6 +3,7 @@ package moutawakil.latifa.bankaccountservice.service;
 import moutawakil.latifa.bankaccountservice.dto.BankAccountRequestDTO;
 import moutawakil.latifa.bankaccountservice.dto.BankAccountResponseDTO;
 import moutawakil.latifa.bankaccountservice.entities.BankAccount;
+import moutawakil.latifa.bankaccountservice.mappers.AccountMapper;
 import moutawakil.latifa.bankaccountservice.repositories.BankAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ import java.util.UUID;
 public class AccountServiceImpl implements AccountService{
     @Autowired
     private BankAccountRepository bankAccountRepository;
-
+    @Autowired
+    private AccountMapper accountMapper;
     @Override
     public BankAccountResponseDTO addAccount(BankAccountRequestDTO bankAccountDTO) {
         BankAccount bankAccount=BankAccount.builder()
@@ -28,13 +30,7 @@ public class AccountServiceImpl implements AccountService{
                 .build();
         BankAccount saveBankAccount = bankAccountRepository.save(bankAccount);
 
-        BankAccountResponseDTO bankAccountResponseDTO= BankAccountResponseDTO.builder()
-                .id(saveBankAccount.getId())
-                .type(saveBankAccount.getType())
-                .createdAt(saveBankAccount.getCreatedAt())
-                .currency(saveBankAccount. getCurrency())
-                .balance(saveBankAccount.getBalance())
-                .build();
+        BankAccountResponseDTO bankAccountResponseDTO= accountMapper.fromBankAccount(saveBankAccount);
 
         return bankAccountResponseDTO;
     }
